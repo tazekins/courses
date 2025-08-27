@@ -1,94 +1,44 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Palliative Care Reflection Activity</title>
+  <title>Coordination of Palliative Care – Reflection</title>
   <style>
     :root { --ink:#16324f; --line:#d8dee9; }
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      margin: 12px;
-      color: #1f2937;
-      background: #fff;
-      line-height: 1.5;
-    }
-    h2 {
-      color: var(--ink);
-      margin: 0 0 8px;
-      font-size: 1.25rem;
-    }
-    p.small {
-      font-size: 0.9rem;
-      color: #475569;
-      margin-bottom: 16px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.95rem;
-    }
-    th, td {
-      border: 1px solid var(--line);
-      padding: 10px;
-      vertical-align: top;
-    }
-    th {
-      background: #f7fafc;
-      text-align: left;
-    }
-    textarea {
-      width: 100%;
-      min-height: 72px;
-      resize: vertical;
-      padding: 6px;
-      font-size: 0.9rem;
-    }
-    .chips label {
-      display: block;
-      margin: 4px 0;
-    }
-    .actions {
-      margin-top: 16px;
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    button {
-      padding: 10px 14px;
-      background: var(--ink);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-    button:hover {
-      filter: brightness(1.05);
-    }
-    @media (max-width: 700px) {
-      table, tr, td, th { display: block; width: 100%; }
-      td, th { box-sizing: border-box; }
-      th { position: sticky; top: 0; }
+    body { font-family: Arial,Helvetica,sans-serif; margin:20px; color:#1f2937; }
+    h2 { color:var(--ink); margin:0 0 8px; }
+    p { margin:0 0 14px; }
+    table { width:100%; border-collapse:collapse; table-layout:fixed; }
+    th, td { border:1px solid var(--line); padding:10px; vertical-align:top; word-wrap:break-word; }
+    th { background:#f7fafc; text-align:left; }
+    .chips label { display:block; margin:4px 0; }
+    textarea { width:100%; min-height:72px; }
+    .actions { margin-top:16px; display:flex; gap:8px; flex-wrap:wrap; }
+    button { padding:10px 14px; background:var(--ink); color:#fff; border:0; border-radius:8px; cursor:pointer; }
+    button:hover { filter:brightness(1.05); }
+    .small { font-size:12px; color:#475569; }
+    @media (max-width: 768px) {
+      table, thead, tbody, th, td, tr { display:block; width:100%; }
+      th { position:relative; }
+      tr { margin-bottom:16px; }
     }
   </style>
 </head>
 <body>
   <h2>Pause and reflect: Coordination of palliative care needs</h2>
-  <p class="small">Select which cadres currently deliver each action, then add notes. Click <strong>Save answers</strong> – then you will be asked if you want to download them.</p>
+  <p class="small">Select which cadres currently deliver each action, then add notes. Click <strong>Save answers</strong> first – then you will be able to download them as a text file.</p>
 
   <form id="form">
     <table role="table">
       <tr>
         <th>Action from Intervention 3</th>
         <th>Select trained health workers</th>
-        <th>Your notes</th>
+        <th>Your notes (training needed, gaps, ideas)</th>
       </tr>
 
       <!-- Row 1 -->
       <tr>
-        <td><strong>Education and counselling</strong> for patients and caregivers</td>
+        <td><strong>Education & counselling for patients and caregivers</strong></td>
         <td class="chips" data-group="education">
           <label><input type="checkbox" value="Community health workers"> Community health workers</label>
           <label><input type="checkbox" value="Paramedical professionals"> Paramedical professionals</label>
@@ -116,7 +66,7 @@
 
       <!-- Row 3 -->
       <tr>
-        <td><strong>Psychological & spiritual counselling</strong> for patients and caregivers</td>
+        <td><strong>Psychological & spiritual counselling for patients and caregivers</strong></td>
         <td class="chips" data-group="psych">
           <label><input type="checkbox" value="Community health workers"> Community health workers</label>
           <label><input type="checkbox" value="Paramedical professionals"> Paramedical professionals</label>
@@ -144,42 +94,41 @@
     </table>
 
     <div class="actions">
-      <button type="button" id="saveBtn">Save answers</button>
+      <button type="button" id="saveBtn">Save Answers</button>
+      <button type="button" id="downloadBtn" style="display:none;">Download Answers</button>
     </div>
   </form>
 
   <script>
     const saveBtn = document.getElementById("saveBtn");
+    const downloadBtn = document.getElementById("downloadBtn");
+    let savedText = "";
 
     saveBtn.addEventListener("click", () => {
-      const answers = {};
+      const rows = document.querySelectorAll("table tr");
+      let output = "Your Reflection Notes\\n\\n";
+      rows.forEach((row, i) => {
+        if (i === 0) return; // skip header
+        const action = row.querySelector("td:first-child").innerText.trim();
+        const checkboxes = row.querySelectorAll("input[type=checkbox]:checked");
+        const notes = row.querySelector("textarea")?.value.trim() || "";
+        const selected = [...checkboxes].map(cb => cb.value).join(", ") || "None selected";
 
-      document.querySelectorAll(".chips").forEach(group => {
-        const groupName = group.dataset.group;
-        answers[groupName] = [];
-        group.querySelectorAll("input:checked").forEach(cb => {
-          answers[groupName].push(cb.value);
-        });
+        output += `Action: ${action}\\nSelected: ${selected}\\nNotes: ${notes}\\n\\n`;
       });
+      savedText = output;
+      alert("Your answers have been saved. You can now download them.");
+      downloadBtn.style.display = "inline-block";
+    });
 
-      document.querySelectorAll("textarea").forEach(area => {
-        answers[area.dataset.notes] = answers[area.dataset.notes] || [];
-        answers[area.dataset.notes].push(area.value);
-      });
-
-      alert("✅ Answers saved");
-
-      if (confirm("Do you want to download your answers now?")) {
-        const blob = new Blob([JSON.stringify(answers, null, 2)], { type: "application/json" });
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = "palliative_reflection_answers.json";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      }
+    downloadBtn.addEventListener("click", () => {
+      const blob = new Blob([savedText], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "palliative_reflection.txt";
+      link.click();
+      URL.revokeObjectURL(link.href);
     });
   </script>
 </body>
 </html>
-
