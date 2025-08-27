@@ -1,247 +1,171 @@
-<iframe
-  srcdoc='
-  <!doctype html>
-  <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Palliative Care: Reflection (iframe)</title>
-    <style>
-      :root {
-        --ink:#16324f;
-        --muted:#475569;
-        --line:#e6eef6;
-        --bg:#ffffff;
-      }
-      html,body{height:100%;margin:0;background:var(--bg);font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
-      .wrap{box-sizing:border-box;padding:18px;max-width:1100px;margin:0 auto;}
-      h2{color:var(--ink);margin:0 0 6px;font-size:20px;}
-      p.small{margin:0 0 14px;color:var(--muted);font-size:13px;}
-      /* Responsive table -> cards on small screens */
-      .grid{display:grid;grid-template-columns:1fr;gap:12px;}
-      .card{border:1px solid var(--line);border-radius:8px;padding:12px;background:#fff;box-shadow:0 1px 0 rgba(0,0,0,.03);}
-      .row-title{font-weight:600;margin-bottom:8px;}
-      .controls{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
-      .controls label{display:block;font-size:14px;margin:4px 0;cursor:pointer;}
-      textarea{width:100%;min-height:72px;border:1px solid var(--line);padding:8px;border-radius:6px;resize:vertical;font-family:inherit;}
-      .actions{display:flex;gap:8px;margin-top:12px;align-items:center;}
-      button{background:var(--ink);color:#fff;border:0;padding:10px 14px;border-radius:8px;cursor:pointer;}
-      button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);}
-      .note{font-size:13px;color:var(--muted);margin-left:6px;}
-      /* wider layout for larger screens */
-      @media(min-width:860px){
-        .grid{grid-template-columns:repeat(2, 1fr);}
-        .card{display:flex;gap:12px;align-items:flex-start;}
-        .card .left{width:40%;}
-        .card .right{width:60%;}
-        .controls{columns:2; column-gap:12px;}
-      }
-      @media(min-width:1150px){
-        .wrap{padding:28px;}
-      }
-    </style>
-  </head>
-  <body>
-    <div class="wrap" role="main">
-      <h2>Pause and reflect: Coordination of palliative care needs</h2>
-      <p class="small">Select which cadres currently deliver each action, add notes, then click <strong>Save answers</strong>. After saving you will be asked whether you want to download your summary file.</p>
+<iframe srcdoc='
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Palliative Care Reflection Activity</title>
+  <style>
+    :root { --ink:#16324f; --line:#d8dee9; }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 12px;
+      color: #1f2937;
+      background: #fff;
+      line-height: 1.5;
+    }
+    h2 {
+      color: var(--ink);
+      margin: 0 0 8px;
+      font-size: 1.25rem;
+    }
+    p.small {
+      font-size: 0.9rem;
+      color: #475569;
+      margin-bottom: 16px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px;
+      vertical-align: top;
+    }
+    th {
+      background: #f7fafc;
+      text-align: left;
+    }
+    textarea {
+      width: 100%;
+      min-height: 72px;
+      resize: vertical;
+      padding: 6px;
+      font-size: 0.9rem;
+    }
+    .chips label {
+      display: block;
+      margin: 4px 0;
+    }
+    .actions {
+      margin-top: 16px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    button {
+      padding: 10px 14px;
+      background: var(--ink);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    button:hover {
+      filter: brightness(1.05);
+    }
+    @media (max-width: 700px) {
+      table, tr, td, th { display: block; width: 100%; }
+      td, th { box-sizing: border-box; }
+      th { position: sticky; top: 0; }
+    }
+  </style>
+</head>
+<body>
+  <h2>Pause and reflect: Coordination of palliative care needs</h2>
+  <p class="small">Select which cadres currently deliver each action, then add notes. Click <strong>Save answers</strong> – then you will be asked if you want to download them.</p>
 
-      <form id="reflectionForm" autocomplete="off" onsubmit="return false;">
-        <div class="grid">
+  <form id="form">
+    <table role="table">
+      <tr>
+        <th>Action from Intervention 3</th>
+        <th>Select trained health workers</th>
+        <th>Your notes</th>
+      </tr>
 
-          <!-- Card 1 -->
-          <div class="card" data-key="education">
-            <div class="left">
-              <div class="row-title">Education &amp; counselling</div>
-              <div class="small">For patients and caregivers</div>
-            </div>
-            <div class="right">
-              <div class="controls" aria-label="Education cadres">
-                <label><input type="checkbox" value="Community health workers"> Community health workers</label>
-                <label><input type="checkbox" value="Paramedical professionals"> Paramedical professionals</label>
-                <label><input type="checkbox" value="Nurses"> Nurses</label>
-                <label><input type="checkbox" value="General medical practitioners"> General medical practitioners</label>
-                <label><input type="checkbox" value="Specialist medical practitioners"> Specialist medical practitioners</label>
-                <label><input type="checkbox" value="Other"> Other</label>
-              </div>
-              <textarea data-notes="education" placeholder="Notes: training needed, gaps, ideas..."></textarea>
-            </div>
-          </div>
+      <!-- Row 1 -->
+      <tr>
+        <td><strong>Education and counselling</strong> for patients and caregivers</td>
+        <td class="chips" data-group="education">
+          <label><input type="checkbox" value="Community health workers"> Community health workers</label>
+          <label><input type="checkbox" value="Paramedical professionals"> Paramedical professionals</label>
+          <label><input type="checkbox" value="Nurses"> Nurses</label>
+          <label><input type="checkbox" value="General medical practitioners"> General medical practitioners</label>
+          <label><input type="checkbox" value="Specialist medical practitioners"> Specialist medical practitioners</label>
+          <label><input type="checkbox" value="Other"> Other</label>
+        </td>
+        <td><textarea data-notes="education"></textarea></td>
+      </tr>
 
-          <!-- Card 2 -->
-          <div class="card" data-key="caregiver">
-            <div class="left">
-              <div class="row-title">Caregiver training &amp; support</div>
-            </div>
-            <div class="right">
-              <div class="controls" aria-label="Caregiver cadres">
-                <label><input type="checkbox" value="Community health workers"> Community health workers</label>
-                <label><input type="checkbox" value="Paramedical professionals"> Paramedical professionals</label>
-                <label><input type="checkbox" value="Nurses"> Nurses</label>
-                <label><input type="checkbox" value="General medical practitioners"> General medical practitioners</label>
-                <label><input type="checkbox" value="Specialist medical practitioners"> Specialist medical practitioners</label>
-                <label><input type="checkbox" value="Other"> Other</label>
-              </div>
-              <textarea data-notes="caregiver" placeholder="Notes: skills labs, respite, etc."></textarea>
-            </div>
-          </div>
+      <!-- Row 2 -->
+      <tr>
+        <td><strong>Caregiver training and support</strong></td>
+        <td class="chips" data-group="caregiver">
+          <label><input type="checkbox" value="Community health workers"> Community health workers</label>
+          <label><input type="checkbox" value="Paramedical professionals"> Paramedical professionals</label>
+          <label><input type="checkbox" value="Nurses"> Nurses</label>
+          <label><input type="checkbox" value="General medical practitioners"> General medical practitioners</label>
+          <label><input type="checkbox" value="Specialist medical practitioners"> Specialist medical practitioners</label>
+          <label><input type="checkbox" value="Other"> Other</label>
+        </td>
+        <td><textarea data-notes="caregiver"></textarea></td>
+      </tr>
 
-          <!-- Card 3 -->
-          <div class="card" data-key="psych">
-            <div class="left">
-              <div class="row-title">Psychological &amp; spiritual counselling</div>
-            </div>
-            <div class="right">
-              <div class="small">Use the same cadres as above or select in the other cards.</div>
-              <textarea data-notes="psych" placeholder="Notes: screening, referral pathways, chaplaincy..."></textarea>
-            </div>
-          </div>
+      <!-- Row 3 -->
+      <tr>
+        <td><strong>Psychological & spiritual counselling</strong> for patients and caregivers</td>
+        <td class="small">Same as above</td>
+        <td><textarea data-notes="psych"></textarea></td>
+      </tr>
 
-          <!-- Card 4 -->
-          <div class="card" data-key="social">
-            <div class="left">
-              <div class="row-title">Provision of social support</div>
-            </div>
-            <div class="right">
-              <div class="small">Linkage to grants, transport, food security partners...</div>
-              <textarea data-notes="social" placeholder="Notes: partners, referral criteria..."></textarea>
-            </div>
-          </div>
+      <!-- Row 4 -->
+      <tr>
+        <td><strong>Provision of social support</strong></td>
+        <td class="small">Same as above</td>
+        <td><textarea data-notes="social"></textarea></td>
+      </tr>
+    </table>
 
-          <!-- Card 5 -->
-          <div class="card" data-key="referral">
-            <div class="left">
-              <div class="row-title">Referral for specialised services</div>
-            </div>
-            <div class="right">
-              <div class="small">Triage, directories, warm handover scripts, discharge planning.</div>
-              <textarea data-notes="referral" placeholder="Notes: referral criteria, contacts, gaps..."></textarea>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="actions" style="margin-top:18px;">
-          <button id="saveBtn" type="button">Save answers</button>
-          <button id="clearBtn" type="reset" class="ghost">Clear form</button>
-          <div class="note" id="status" aria-live="polite"></div>
-        </div>
-      </form>
-
-      <script>
-        (function(){
-          const FORM_KEY = "palliative_reflection_v1";
-
-          // helpers
-          function q(sel, ctx=document) { return ctx.querySelector(sel); }
-          function qa(sel, ctx=document) { return Array.from(ctx.querySelectorAll(sel)); }
-
-          // build data object from form
-          function collect() {
-            const data = {};
-            qa(".card").forEach(card => {
-              const key = card.getAttribute("data-key");
-              const checked = qa("input[type=checkbox]:checked", card).map(i => i.value);
-              const notes = (q("textarea[data-notes='"+key+"']", card) || {value:""}).value.trim();
-              data[key] = { cadres: checked, notes: notes };
-            });
-            data.savedAt = new Date().toISOString();
-            return data;
-          }
-
-          // populate form from data object
-          function populate(data) {
-            if(!data) return;
-            qa(".card").forEach(card => {
-              const key = card.getAttribute("data-key");
-              const block = data[key] || {cadres:[], notes:""};
-              // uncheck all then check matching
-              qa("input[type=checkbox]", card).forEach(inp => {
-                inp.checked = block.cadres.includes(inp.value);
-              });
-              const ta = q("textarea[data-notes='"+key+"']", card);
-              if(ta) ta.value = block.notes || "";
-            });
-          }
-
-          // save to localStorage
-          function save() {
-            const payload = collect();
-            try {
-              localStorage.setItem(FORM_KEY, JSON.stringify(payload));
-              const status = q("#status");
-              status.textContent = "Answers saved locally.";
-              // prompt to download
-              setTimeout(() => {
-                const dl = confirm("Your answers have been saved. Would you like to download a summary file now?");
-                if(dl) download(payload);
-              }, 250);
-            } catch(e) {
-              alert("Could not save answers locally (browser storage blocked).");
-            }
-          }
-
-          // download text file (readable + JSON)
-          function download(payload) {
-            const header = "Palliative Care — Reflection Summary\\nGenerated: " + (new Date()).toLocaleString() + "\\n\\n";
-            const sections = [];
-            function format(title, obj){
-              const cadres = (obj.cadres && obj.cadres.length) ? obj.cadres.join(", ") : "(none selected)";
-              const notes = obj.notes ? obj.notes : "(no notes)";
-              return title + "\\n- Trained cadres: " + cadres + "\\n- Notes: " + notes + "\\n";
-            }
-            sections.push(format("1) Education & counselling", payload.education || {}));
-            sections.push(format("2) Caregiver training & support", payload.caregiver || {}));
-            sections.push(format("3) Psychological & spiritual counselling", payload.psych || {}));
-            sections.push(format("4) Provision of social support", payload.social || {}));
-            sections.push(format("5) Referral for specialised services", payload.referral || {}));
-
-            const text = header + sections.join("\\n") + "\\n---\\nJSON:\\n" + JSON.stringify(payload, null, 2);
-            const blob = new Blob([text], {type:"text/plain"});
-            const a = document.createElement("a");
-            a.href = URL.createObjectURL(blob);
-            a.download = "palliative_care_reflection.txt";
-            a.style.display = "none";
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            URL.revokeObjectURL(a.href);
-          }
-
-          // wire events
-          q("#saveBtn").addEventListener("click", function(){
-            save();
-          });
-
-          // clear status on reset
-          q("#clearBtn").addEventListener("click", function(){
-            // remove saved storage to avoid confusion
-            try { localStorage.removeItem(FORM_KEY); } catch(e){}
-            q("#status").textContent = "Form cleared (local saved copy removed).";
-          });
-
-          // on load: populate if saved
-          document.addEventListener("DOMContentLoaded", function(){
-            try {
-              const saved = localStorage.getItem(FORM_KEY);
-              if(saved) {
-                populate(JSON.parse(saved));
-                q("#status").textContent = "Loaded your previously saved answers.";
-              }
-            } catch(e) {
-              // ignore
-            }
-          });
-
-        })();
-      </script>
+    <div class="actions">
+      <button type="button" id="saveBtn">Save answers</button>
     </div>
-  </body>
-  </html>
-  '
-  width="100%"
-  height="100%"
-  style="border:0; max-width:100%;"
-  allowfullscreen
-  title="Palliative Care reflection activity (iframe)">
-</iframe>
+  </form>
+
+  <script>
+    const saveBtn = document.getElementById("saveBtn");
+
+    saveBtn.addEventListener("click", () => {
+      const answers = {};
+
+      document.querySelectorAll(".chips").forEach(group => {
+        const groupName = group.dataset.group;
+        answers[groupName] = [];
+        group.querySelectorAll("input:checked").forEach(cb => {
+          answers[groupName].push(cb.value);
+        });
+      });
+
+      document.querySelectorAll("textarea").forEach(area => {
+        answers[area.dataset.notes] = answers[area.dataset.notes] || [];
+        answers[area.dataset.notes].push(area.value);
+      });
+
+      alert("✅ Answers saved in memory.");
+
+      if (confirm("Do you want to download your answers now?")) {
+        const blob = new Blob([JSON.stringify(answers, null, 2)], { type: "application/json" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "palliative_reflection_answers.json";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+    });
+  </script>
+</body>
+</html>
+' width="100%" height="600" style="border:1px solid #ccc; border-radius:8px;"></iframe>
